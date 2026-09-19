@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#111111">
+<link rel="manifest" href="manifest.json">
+<title>BildKompressor</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#f5f5f7;color:#111;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Helvetica Neue",sans-serif}
+main{max-width:720px;margin:auto;padding:calc(18px + env(safe-area-inset-top)) 18px calc(32px + env(safe-area-inset-bottom))}
+h1{font-size:32px;margin:8px 0 4px;letter-spacing:-.8px}.sub{color:#666;margin:0 0 22px}
+.card{background:white;border-radius:22px;padding:18px;margin:14px 0;box-shadow:0 1px 4px #00000010}
+button,.file-label{border:0;border-radius:15px;padding:14px 17px;font-size:16px;font-weight:650;cursor:pointer;background:#111;color:#fff;text-align:center}
+.file-label{display:block}.file-label input{display:none}
+.preview{width:100%;max-height:360px;object-fit:contain;background:#eee;border-radius:16px;margin-top:14px;display:none}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.stat{background:#f2f2f7;border-radius:14px;padding:12px}.stat b{display:block;font-size:18px;margin-top:3px}
+label.row{display:block;margin:20px 0}.rowtop{display:flex;justify-content:space-between;font-weight:650;margin-bottom:8px}
+input[type=range]{width:100%;accent-color:#111}.hint{font-size:13px;color:#777;margin-top:6px}
+select{width:100%;padding:13px;border-radius:13px;border:1px solid #ddd;background:white;font-size:16px}
+.result{display:none}.save{width:100%;margin-top:12px}.secondary{background:#e5e5ea;color:#111}
+.notice{font-size:13px;color:#666;line-height:1.45}
+#status{margin-top:12px;font-weight:600}
+</style>
+</head>
+<body>
+<main>
+<h1>BildKompressor</h1>
+<p class="sub">Weniger Speicherplatz, gute Bildqualität.</p>
+
+<section class="card">
+<label class="file-label">📷 Foto auswählen
+<input id="file" type="file" accept="image/jpeg,image/png,image/heic,image/heif,image/*">
+</label>
+<img id="preview" class="preview" alt="Vorschau">
+<div id="original" class="grid" style="display:none;margin-top:14px">
+<div class="stat">Original<b id="origSize">–</b></div>
+<div class="stat">Auflösung<b id="origDim">–</b></div>
+</div>
+</section>
+
+<section class="card" id="settings" style="display:none">
+<label class="row">
+<div class="rowtop"><span>Qualität</span><span id="qualityVal">75 %</span></div>
+<input id="quality" type="range" min="20" max="100" value="75">
+<div class="hint">Höher = bessere Qualität, meist größere Datei.</div>
+</label>
+
+<label class="row">
+<div class="rowtop"><span>Maximale Kantenlänge</span><span id="dimVal">2048 px</span></div>
+<input id="dimension" type="range" min="640" max="4096" step="128" value="2048">
+<div class="hint">Die längste Bildkante wird auf diesen Wert begrenzt.</div>
+</label>
+
+<label class="row">
+<div class="rowtop"><span>Ausgabeformat</span></div>
+<select id="format">
+<option value="image/jpeg">JPEG – kompatibel & klein</option>
+<option value="image/webp">WebP – sehr klein</option>
+<option value="image/png">PNG – verlustfrei</option>
+</select>
+</label>
+
+<button id="compress" style="width:100%">Bild komprimieren</button>
+<div id="status"></div>
+</section>
+
+<section class="card result" id="result">
+<div class="grid">
+<div class="stat">Neu<b id="newSize">–</b></div>
+<div class="stat">Ersparnis<b id="saving">–</b></div>
+</div>
+<div class="stat" style="margin-top:10px">Neue Auflösung<b id="newDim">–</b></div>
+<button id="save" class="save">⬇️ Ergebnis speichern / teilen</button>
+<p class="notice">Das Original bleibt unverändert. Die Bildverarbeitung findet auf deinem Gerät statt.</p>
+</section>
+</main>
+<script src="app.js"></script>
+</body>
+</html>
